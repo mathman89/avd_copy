@@ -1,5 +1,5 @@
 ---
-name: CPE_VXLAN
+name: ARISTA_AVD
 
 prefix: __lab-name
 

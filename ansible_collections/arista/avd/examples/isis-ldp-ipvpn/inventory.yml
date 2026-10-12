@@ -50,8 +50,8 @@ all:
           containerlab_deploy_on_hosts: true
           sim_ceos_version: ceos:4.32.6.1M
           containerlab_mode: container
-          containerlab_labname: CPE_VXLAN
-          sim_topology_file_name: CPE-VXLAN_LAB
+          containerlab_labname: ARISTA_AVD
+          sim_topology_file_name: Arista_AVD
           containerlab_mgmt_network_name: containerlab_mgmt
           containerlab_mgmt_network: 10.25.99.0/24
           containerlab_vxlan_base: 200

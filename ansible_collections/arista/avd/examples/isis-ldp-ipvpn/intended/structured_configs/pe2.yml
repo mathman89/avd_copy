@@ -24,10 +24,9 @@ ethernet_interfaces:
     ldp:
       interface: true
       igp_sync: true
-  metadata:
-    peer: p2
-    peer_interface: Ethernet1
-    peer_type: p
+  peer: p2
+  peer_interface: Ethernet1
+  peer_type: p
   switchport:
     enabled: false
 - name: Ethernet2
@@ -50,10 +49,9 @@ ethernet_interfaces:
     ldp:
       interface: true
       igp_sync: true
-  metadata:
-    peer: p1
-    peer_interface: Ethernet2
-    peer_type: p
+  peer: p1
+  peer_interface: Ethernet2
+  peer_type: p
   switchport:
     enabled: false
 - name: Ethernet4.10
@@ -65,8 +63,7 @@ ethernet_interfaces:
   ip_address: 10.0.1.2/29
   ospf_network_point_to_point: false
   ospf_area: 0.0.0.0
-  metadata:
-    peer_type: l3_interface
+  peer_type: l3_interface
 - name: Ethernet4.20
   description: C2_L3_SERVICE
   shutdown: false
@@ -74,12 +71,10 @@ ethernet_interfaces:
   encapsulation_dot1q:
     vlan: 20
   ip_address: 10.1.1.2/29
-  metadata:
-    peer_type: l3_interface
+  peer_type: l3_interface
 - name: Ethernet4
   shutdown: false
-  metadata:
-    peer_type: l3_interface
+  peer_type: l3_interface
   switchport:
     enabled: false
 hostname: pe2
@@ -111,7 +106,7 @@ management_api_http:
   enable_vrfs:
   - name: MGMT
 management_interfaces:
-- name: Management1
+- name: Management0
   description: OOB_MANAGEMENT
   shutdown: false
   vrf: MGMT
@@ -125,8 +120,6 @@ metadata:
   is_deployed: true
   platform: cEOSLab
   fabric_name: FABRIC
-  validate_hardware:
-    enabled: false
 mpls:
   ip: true
   ldp:
@@ -148,13 +141,13 @@ router_bgp:
     local_routes: 200
   maximum_paths:
     paths: 4
+    ecmp: 4
   bgp:
     default:
       ipv4_unicast: false
   peer_groups:
   - name: MPLS-OVERLAY-PEERS
-    metadata:
-      type: mpls
+    type: mpls
     remote_as: '65001'
     update_source: Loopback0
     bfd: true
@@ -164,13 +157,11 @@ router_bgp:
   neighbors:
   - ip_address: 10.255.2.1
     peer_group: MPLS-OVERLAY-PEERS
-    metadata:
-      peer: rr1
+    peer: rr1
     description: rr1_Loopback0
   - ip_address: 10.255.2.2
     peer_group: MPLS-OVERLAY-PEERS
-    metadata:
-      peer: rr2
+    peer: rr2
     description: rr2_Loopback0
   address_family_ipv4:
     peer_groups:
@@ -264,11 +255,7 @@ vrfs:
   ip_routing: false
 - name: C1_VRF1
   ip_routing: true
-  metadata:
-    tenants:
-    - CUSTOMER1
+  tenant: CUSTOMER1
 - name: C2_VRF1
   ip_routing: true
-  metadata:
-    tenants:
-    - CUSTOMER2
+  tenant: CUSTOMER2

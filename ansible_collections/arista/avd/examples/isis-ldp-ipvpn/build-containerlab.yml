@@ -1,0 +1,48 @@
+- name: Build EOS Designs for MPLS
+  hosts: MPLS. # <== replace this with desired fabric to simulate. 
+  gather_facts: false
+  tasks:
+    - name: Generate intended variables
+      ansible.builtin.import_role:
+        name: arista.avd.eos_designs
+    - name: Generate device intended config and documentation
+      ansible.builtin.import_role:
+        name: arista.avd.eos_cli_config_gen
+    - name: Create and deploy containerlab topology
+      import_role:
+        name: eos_designs_to_containerlab
+        tasks_from: create_avd_node_files
+
+- name: Deploy containerlab topology
+  hosts: SIMULATION
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Create and deploy containerlab topology
+      import_role:
+        name: eos_designs_to_containerlab
+        tasks_from: deploy
+
+##// For multi-fabric deployments, you can use the following playbook to containerized cEOS labs across multiple fabrics.(e.g. MPLS, CPE, OOB etc.)
+
+# Create containerlab topology for ALL devices at once
+# - name: Create containerlab topology files
+#   hosts: MPLS,LAB,CPE-VXLAN,OOB
+#   gather_facts: false
+#   tasks:
+#     - name: Create and deploy containerlab topology
+#       import_role:
+#         name: eos_designs_to_containerlab
+#         tasks_from: create_avd_node_files
+#       run_once: true  # This prevents multiple executions
+#       delegate_to: localhost
+
+# - name: Deploy containerlab topology
+#   hosts: SIMULATION
+#   gather_facts: false
+#   connection: local
+#   tasks:
+#     - name: Create and deploy containerlab topology
+#       import_role:
+#         name: eos_designs_to_containerlab
+#         tasks_from: deploy
